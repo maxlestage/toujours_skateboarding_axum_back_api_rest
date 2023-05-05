@@ -1,7 +1,5 @@
 use axum::{routing::get, Router};
 
-use migration::{Migrator, MigratorTrait};
-
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt()
@@ -9,7 +7,6 @@ async fn main() {
         .with_test_writer()
         .init();
 
-    Migrator::up(db, None).await?;
     // build our application with a single route
     let app = Router::new().route("/", get(|| async { "Hello, World!" }));
 

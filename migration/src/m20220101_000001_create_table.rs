@@ -25,7 +25,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(User::MAIL).string().not_null())
                     .col(ColumnDef::new(User::PASSWORD).string().not_null())
                     .col(ColumnDef::new(User::SECRETKEY).string().not_null())
-                    .col(ColumnDef::new(User::REGISTRATEDDATE).timestamp().not_null())
+                    .col(ColumnDef::new(User::REGISTEREDDDATE).timestamp().not_null())
                     .to_owned(),
             )
             .await
@@ -50,5 +50,5 @@ enum User {
     MAIL,
     PASSWORD,
     SECRETKEY,
-    REGISTRATEDDATE,
+    REGISTEREDDDATE,
 }
