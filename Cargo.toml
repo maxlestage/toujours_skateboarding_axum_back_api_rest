@@ -5,15 +5,18 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[workspaces]
-members = [".", "migration", "database"]
+[workspace]
+members = [".", "migration"]
 
 [dependencies]
+# entity = { path = "entity" }
 axum = "^0.6"
-sea-orm = { version = "^0", features = ["sqlx-postgres", "runtime-tokio-native-tls", "macros", "with-uuid"] }
 tokio = { version = "^1", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
 tracing-subscriber = "0.3.17"
+migration = { path = "migration" } 
 
-[workspaces.dependencies]
-migration = {path = "./migration"}
+
+[workspace.dependencies]
+sea-orm = { version = "^0", features = ["sqlx-postgres", "runtime-tokio-native-tls", "macros", "with-uuid"] }
+
