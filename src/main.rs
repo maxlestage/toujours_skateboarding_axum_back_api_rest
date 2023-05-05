@@ -20,10 +20,8 @@ async fn main() {
         .await
         .expect("Migration error");
 
-    // build our application with a single route
     let app = Router::new().route("/", get(|| async { "Hello, World!" }));
 
-    // run it with hyper on localhost:7878
     axum::Server::bind(&"0.0.0.0:7878".parse().unwrap())
         .serve(app.into_make_service())
         .await
