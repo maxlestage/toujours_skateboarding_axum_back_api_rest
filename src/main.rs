@@ -1,5 +1,35 @@
-use axum::{routing::get, Router};
+use axum::{
+    extract,
+    http::StatusCode,
+    routing::{get, post},
+    Json, Router,
+};
+use entity::prelude::User;
+use from_body::UserSerialized::UserSerialized;
 use migration::{sea_orm, Migrator, MigratorTrait};
+use querry::user::create_new_user;
+
+async fn create_user(Json(payload): Json<UserSerialized>) -> (StatusCode, Json<UserSerialized>) {
+    let database_url: String =
+        "postgres://postgres:toujours_skateboarding@localhost:5432/toujours_skateboarding_axum_db"
+            .to_owned();
+
+    let connection: sea_orm::DatabaseConnection = sea_orm::Database::connect(&database_url)
+        .await
+        .expect("Connection impossible");
+    let user: UserSerialized = UserSerialized {
+        username: payload.username,
+        firstname: payload.firstname,
+        lastname: payload.lastname,
+        cellnumber: payload.cellnumber,
+        mail: payload.mail,
+        password: payload.password,
+        secretkey: payload.secretkey,
+    };
+
+    create_new_user(user.clone(), &connection).await;
+    (StatusCode::CREATED, Json(user))
+}
 
 #[tokio::main]
 async fn main() {
@@ -12,7 +42,7 @@ async fn main() {
         "postgres://postgres:toujours_skateboarding@localhost:5432/toujours_skateboarding_axum_db"
             .to_owned();
 
-    let connection = sea_orm::Database::connect(&database_url)
+    let connection: sea_orm::DatabaseConnection = sea_orm::Database::connect(&database_url)
         .await
         .expect("Connection impossible");
 
@@ -20,7 +50,7 @@ async fn main() {
         .await
         .expect("Migration error");
 
-    let app = Router::new().route("/", get(|| async { "Hello, World!" }));
+    let app = Router::new().route("/new", post(create_user));
 
     axum::Server::bind(&"0.0.0.0:7878".parse().unwrap())
         .serve(app.into_make_service())

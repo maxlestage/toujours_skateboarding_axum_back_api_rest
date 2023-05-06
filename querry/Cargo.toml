@@ -1,0 +1,15 @@
+[package]
+name = "querry"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "querry"
+path = "src/lib.rs"
+
+[dependencies]
+entity = { path = "../entity" } 
+sea-orm = {workspace = true }
+from_body = { path = "../from_body" } 
+uuid = {workspace = "true"}
