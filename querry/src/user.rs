@@ -1,6 +1,6 @@
 use ::entity::prelude::User;
 use ::entity::user::{self, Model};
-use from_body::UserSerialized::UserSerialized;
+use from_body::user_serialized::UserSerialized;
 use sea_orm::*;
 use uuid::Uuid;
 

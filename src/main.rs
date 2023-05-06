@@ -5,7 +5,7 @@ use axum::{
     Json, Router,
 };
 use entity::prelude::User;
-use from_body::UserSerialized::UserSerialized;
+use from_body::user_serialized::UserSerialized;
 use migration::{sea_orm, Migrator, MigratorTrait};
 use querry::user::create_new_user;
 

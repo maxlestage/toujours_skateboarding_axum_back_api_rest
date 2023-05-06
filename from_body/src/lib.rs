@@ -1,1 +1,1 @@
-pub mod UserSerialized;
+pub mod user_serialized;
